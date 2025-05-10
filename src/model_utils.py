@@ -93,6 +93,7 @@ async def generate_completion(
         else:
             # Return an error message for non-streaming
             return f"Error: {str(e)}"
+        raise
 
 
 async def generate_json_completion(

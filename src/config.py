@@ -55,7 +55,7 @@ def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
     # Try to load from specified config file
     if config_path and os.path.exists(config_path):
         try:
-            with open(config_path, 'r') as f:
+            with open(config_path, 'r', encoding='utf-8') as f:
                 yaml_config = yaml.safe_load(f)
                 if yaml_config:
                     # Merge with defaults (deep merge would be better but this is simple)

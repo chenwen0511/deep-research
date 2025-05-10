@@ -22,20 +22,26 @@ def get_model(is_report: bool = False) -> Dict[str, Any]:
         report_config = config.get("report_llm", {})
         api_key = report_config.get("api_key", "")
         model = report_config.get("model", "gpt-4o")
+        api_version = report_config.get("api_version", "2024-08-01-preview")
         base_url = report_config.get("base_url", None)
     else:
         openai_config = config.get("openai", {})
         api_key = openai_config.get("api_key", "")
         model = openai_config.get("model", "gpt-4o-mini")
         base_url = openai_config.get("base_url", None)
+        api_version = openai_config.get("api_version", "2024-08-01-preview")
 
-    # Initialize OpenAI client
-    client_args = {"api_key": api_key}
-    if base_url:
-        client_args["base_url"] = base_url
+    # Azure OpenAI 需要特殊的配置
+    client_args = {
+        "api_key": api_key,
+        "azure_endpoint": base_url,
+        "api_version": api_version,
+        "azure_deployment": model,
+    }
 
-    client = openai.OpenAI(**client_args)
-    async_client = openai.AsyncOpenAI(**client_args)
+
+    client = openai.AzureOpenAI(**client_args)
+    async_client = openai.AsyncAzureOpenAI(**client_args)
 
     return {
         "client": client,

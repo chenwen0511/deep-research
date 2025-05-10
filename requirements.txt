@@ -3,3 +3,4 @@ openai
 httpx
 gradio==5.22.0
 pyyaml
+aiohttp
